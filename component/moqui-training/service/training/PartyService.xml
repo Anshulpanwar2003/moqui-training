@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-2.xsd">
+
+    <!-- Create Party Service -->
+    <service name="party.create" verb="create" noun="Party" type="entity-auto">
+        <description>Create a new Party record</description>
+        <in-parameters>
+            <parameter name="partyId" type="String" required="true"/>
+            <parameter name="partyType" type="String" required="true"/>
+            <parameter name="firstName" type="String" required="true"/>
+            <parameter name="lastName" type="String" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="partyId" type="id"/>
+        </out-parameters>
+    </service>
+
+    <!-- Get Party Service -->
+    <service verb="fetch" noun="Party" type="inline">
+        <description>Fetch Party records</description>
+        <in-parameters>
+            <parameter name="partyId" type="String" required="false">
+                <description>Filter by Party ID</description>
+            </parameter>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="partyList" type="List" required="true">
+                <description>List of Party records</description>
+            </parameter>
+        </out-parameters>
+        <actions>
+            <entity-find entity-name="com.retail.Party" list="partyList">
+                <econdition field-name="partyId" ignore-if-empty="true"/>
+                <econdition field-name="partyType" ignore-if-empty="true"/>
+                <econdition field-name="firstName" ignore-if-empty="true"/>
+                <econdition field-name="lastName" ignore-if-empty="true"/>
+                <select-field field-name="partyId"/>
+                <select-field field-name="partyType"/>
+                <select-field field-name="firstName"/>
+                <select-field field-name="lastName"/>
+            </entity-find>
+        </actions>
+    </service>
+
+    <!-- Update Party Service -->
+    <service name="party.update" verb="store" noun="Party" type="inline">
+        <description>Update an existing Party record</description>
+        <in-parameters>
+            <parameter name="partyId" type="String" required="true"/>
+            <parameter name="partyType" type="String"/>
+            <parameter name="firstName" type="String"/>
+            <parameter name="lastName" type="String"/>
+        </in-parameters>
+        <actions>
+            <entity-find value-field="existingParty" entity-name="Party">
+                <econdition field-name="partyId" value-field="partyId"/>
+            </entity-find>
+            <entity-set value-field="existingParty" include="all"/>
+            <entity-update value-field="existingParty"/>
+        </actions>
+    </service>
+
+    <!-- Delete Party Service -->
+    <service name="party.delete" verb="delete" noun="Party" type="entity-auto">
+        <description>Delete a Party record by ID</description>
+        <in-parameters>
+            <parameter name="partyId" type="String" required="true"/>
+        </in-parameters>
+        <actions>
+            <entity-find value-field="partyToDelete" entity-name="Party"/>
+            <if condition="partyToDelete != null">
+                <entity-delete value-field="partyToDelete"/>
+            </if>
+        </actions>
+    </service>
+
+</services>

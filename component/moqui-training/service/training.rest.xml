@@ -1,0 +1,29 @@
+<resource name="rest" require-authentication="anonymous-all">
+
+    <!-- Training Entity APIs -->
+    <resource name="training" uri="training" require-authentication="anonymous-all">
+        <method type="get" uri="training" require-authentication="anonymous-all">
+            <service name="training.FetchMoquiTrainingRecords.fetch#MoquiTraining"/>
+        </method>
+        <method type="post" uri="training" require-authentication="anonymous-all">
+            <service name="training.MoquiTrainingDefault.create#MoquiTraining"/>
+        </method>
+    </resource>
+
+    <!-- Product Entity APIs -->
+    <resource name="product" uri="product" require-authentication="anonymous-all">
+        <method type="get" uri="product" require-authentication="anonymous-all">
+            <service name="training.ProductService.fetch#Product"/>
+        </method>
+        <method type="post" uri="product" require-authentication="anonymous-all">
+            <service name="training.ProductService.create#Product"/>
+        </method>
+        <method type="put" uri="product" require-authentication="anonymous-all">
+            <service name="training.ProductService.store#Product"/>
+        </method>
+        <method type="delete" uri="product" require-authentication="anonymous-all">
+            <service name="training.ProductService.delete#Product"/>
+        </method>
+    </resource>
+
+</resource>

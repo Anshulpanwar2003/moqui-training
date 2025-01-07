@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-2.xsd">
+
+    <!-- Create Product Service -->
+    <service name="product.create" verb="create" noun="Product" type="entity-auto">
+        <description>Create a new Product record</description>
+        <in-parameters>
+            <parameter name="productId" type="String" required="true"/>
+            <parameter name="productName" type="String" required="true"/>
+            <parameter name="color" type="String" required="true"/>
+            <parameter name="size" type="String" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="productId" type="id"/>
+        </out-parameters>
+    </service>
+
+    <!-- Get Product Service -->
+
+    <service verb="fetch" noun="Product" type="inline">
+        <description>Fetch Product records with embedded MoquiTraining data</description>
+
+        <!-- Input Parameters -->
+        <in-parameters>
+            <parameter name="productId" type="String" required="false">
+                <description>Filter by Product ID</description>
+            </parameter>
+        </in-parameters>
+
+        <!-- Output Parameters -->
+        <out-parameters>
+            <parameter name="productList" type="List" required="true">
+                <description>List of Product records</description>
+            </parameter>
+        </out-parameters>
+
+        <actions>
+            <!-- Fetch Product Data -->
+            <entity-find entity-name="com.retail.Product" list="productList">
+                <econdition field-name="productId" ignore-if-empty="true"/>
+                <econdition field-name="productName" ignore-if-empty="true"/>
+                <econdition field-name="color" ignore-if-empty="true"/>
+                <select-field field-name="productId"/>
+                <select-field field-name="productName"/>
+                <select-field field-name="color"/>
+                <select-field field-name="size"/>
+                <parameter name="LAST_UPDATED_STAMP" type="Timestamp"/>
+            </entity-find>
+
+
+        </actions>
+    </service>
+
+    <!-- Update Product Service -->
+    <service name="product.update" verb="store" noun="Product" type="inline">
+        <description>Update an existing Product record</description>
+        <in-parameters>
+            <parameter name="productId" type="String" required="true"/>
+            <parameter name="productName" type="String"/>
+            <parameter name="color" type="String"/>
+            <parameter name="size" type="String"/>
+        </in-parameters>
+        <actions>
+            <!-- Find the existing product by productId -->
+            <entity-find value-field="existingProduct" entity-name="Product">
+                <econdition field-name="productId" value-field="productId"/>
+            </entity-find>
+
+            <!-- Set the existingProduct entity to include all fields (to prepare for update) -->
+            <entity-set value-field="existingProduct" include="all"/>
+
+            <!-- Update the existing product with the new values -->
+            <entity-update value-field="existingProduct"/>
+
+        </actions>
+    </service>
+
+    <!-- Delete Product Service -->
+    <service name="product.delete" verb="delete" noun="Product" type="entity-auto">
+        <description>Delete a Product record by ID</description>
+        <in-parameters>
+            <parameter name="productId" type="String" required="true"/>
+        </in-parameters>
+        <actions>
+            <entity-find value-field="productToDelete" entity-name="Product"/>
+            <if condition="productToDelete != null">
+                <entity-delete value-field="productToDelete"/>
+            </if>
+        </actions>
+    </service>
+
+</services>

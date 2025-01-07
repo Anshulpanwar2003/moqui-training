@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/entity-definition-3.xsd">
+
+    <entity entity-name="ContactMech" package="com.retail">
+        <field name="contactMechId" type="id" is-pk="true"/>
+        <field name="partyId" type="id"/>
+        <field name="streetAddress" type="text-medium"/>
+        <field name="city" type="text-medium"/>
+        <field name="state" type="text-medium"/>
+        <field name="postalCode" type="text-medium"/>
+
+        <relationship type="one" related="Party">
+            <key-map field-name="partyId" related="partyId"/>
+        </relationship>
+
+
+    </entity>
+
+
+</entities>

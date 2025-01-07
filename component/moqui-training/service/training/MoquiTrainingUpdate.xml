@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
+
+    <!-- Define the service to create or update MoquiTraining records -->
+    <service verb="store" type="inline" noun="MoquiTraining">
+
+        <!-- Input Parameters: -->
+        <in-parameters>
+            <!-- trainingName is mandatory -->
+            <parameter name="trainingName" type="String" required="true"/>
+
+            <!-- trainingDate is optional but must be validated -->
+            <parameter name="trainingDate" type="java.sql.Date" required="false"/>
+
+            <!-- trainingId is optional (used for identifying existing records) -->
+            <parameter name="trainingId" type="String" required="false"/>
+
+            <!-- Include all auto parameters (e.g., session data, etc.) -->
+            <auto-parameters include="all" />
+        </in-parameters>
+
+        <!-- Output Parameters: Return trainingId -->
+        <out-parameters>
+            <auto-parameters include="pk" required="true" />
+        </out-parameters>
+
+        <actions>
+
+            <!-- Step 1: Find existing MoquiTraining record using trainingId or trainingName -->
+            <entity-find-one entity-name="MoquiTraining" value-field="filterdata">
+                <field-map field-name="trainingId" from="context.trainingId" />
+                <field-map field-name="trainingName" from="context.trainingName" />
+            </entity-find-one>
+
+            <!-- Step 2: Validate trainingDate format if provided -->
+            <script>
+                import java.text.SimpleDateFormat
+
+                if (context.trainingDate != null) {
+                // Convert the date to String in "MM/dd" format
+                SimpleDateFormat formatter = new SimpleDateFormat("MM/dd")
+                String formattedDate = formatter.format(context.trainingDate)
+
+                // Validate if the date matches the required "MM/dd" format
+                if (!formattedDate.matches("\\d{2}/\\d{2}")) {
+                message.addError("Invalid trainingDate format. Use MM/dd.")
+                return
+                }
+                }
+            </script>
+
+            <!-- Step 3: If no existing record is found, create a new one -->
+            <if condition="filterdata == null">
+                <entity-make-value entity-name="MoquiTraining" value-field="moquiTraining" />
+                <entity-set value-field="moquiTraining" include="all" />
+                <entity-create value-field="moquiTraining" />
+            </if>
+
+            <!-- Step 4: If a record exists, update it with the new values -->
+            <if condition="filterdata != null">
+                <entity-set value-field="filterdata" include="all" />
+                <entity-update value-field="filterdata" />
+            </if>
+
+        </actions>
+    </service>
+</services>

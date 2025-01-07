@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-2.xsd">
+
+    <!-- Create OrderItem Service -->
+    <service name="orderItem.create" verb="create" noun="OrderItem" type="entity-auto">
+        <description>Create a new OrderItem record</description>
+        <in-parameters>
+            <parameter name="orderId" type="String" required="true"/>
+            <parameter name="productId" type="String" required="true"/>
+            <parameter name="quantity" type="Integer" required="true"/>
+            <parameter name="status" type="String" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="orderItemSeqId" type="id"/>
+        </out-parameters>
+    </service>
+
+    <!-- Fetch OrderItem Service -->
+    <service name="orderItem.fetch" verb="fetch" noun="OrderItem" type="inline">
+        <description>Fetch OrderItem records</description>
+        <in-parameters>
+            <parameter name="orderItemSeqId" type="String" required="false">
+                <description>Filter by OrderItem Sequence ID</description>
+            </parameter>
+            <parameter name="orderId" type="String" required="false">
+                <description>Filter by Order ID</description>
+            </parameter>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="orderItemList" type="List" required="true">
+                <description>List of OrderItem records</description>
+            </parameter>
+        </out-parameters>
+        <actions>
+            <entity-find entity-name="OrderItem" list="orderItemList">
+                <econdition field-name="orderItemSeqId" ignore-if-empty="true"/>
+                <econdition field-name="orderId" ignore-if-empty="true"/>
+                <select-field field-name="orderItemSeqId"/>
+                <select-field field-name="orderId"/>
+                <select-field field-name="productId"/>
+                <select-field field-name="quantity"/>
+                <select-field field-name="status"/>
+            </entity-find>
+        </actions>
+    </service>
+
+    <!-- Update OrderItem Service -->
+    <service name="orderItem.update" verb="store" noun="OrderItem" type="inline">
+        <description>Update an existing OrderItem record</description>
+        <in-parameters>
+            <parameter name="orderItemSeqId" type="id" required="true"/>
+            <parameter name="quantity" type="number-integer"/>
+            <parameter name="status" type="text-medium"/>
+        </in-parameters>
+        <actions>
+            <!-- Find the existing OrderItem by orderItemSeqId -->
+            <entity-find value-field="existingOrderItem" entity-name="OrderItem">
+                <econdition field-name="orderItemSeqId" value-field="orderItemSeqId"/>
+            </entity-find>
+
+            <!-- Set the existing OrderItem entity to include all fields (prepare for update) -->
+            <entity-set value-field="existingOrderItem" include="all"/>
+
+            <!-- Update the existing OrderItem with new values -->
+            <entity-update value-field="existingOrderItem"/>
+        </actions>
+    </service>
+
+    <!-- Delete OrderItem Service -->
+    <service name="orderItem.delete" verb="delete" noun="OrderItem" type="entity-auto">
+        <description>Delete an OrderItem record by ID</description>
+        <in-parameters>
+            <parameter name="orderItemSeqId" type="String" required="true"/>
+        </in-parameters>
+        <actions>
+            <entity-find value-field="orderItemToDelete" entity-name="OrderItem"/>
+            <if condition="orderItemToDelete != null">
+                <entity-delete value-field="orderItemToDelete"/>
+            </if>
+        </actions>
+    </service>
+
+</services>

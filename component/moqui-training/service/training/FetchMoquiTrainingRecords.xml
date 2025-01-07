@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
+
+    <service verb="fetch" noun="MoquiTraining" type="inline">
+        <description>Fetch MoquiTraining records based on optional filters</description>
+
+        <!-- Input Parameters -->
+        <in-parameters>
+            <parameter name="trainingName" type="String" required="false">
+                <description>Filter by training name</description>
+            </parameter>
+            <parameter name="trainingId" type="Long" required="false">
+                <description>Filter by training ID</description>
+            </parameter>
+        </in-parameters>
+
+        <!-- Output Parameters -->
+        <out-parameters>
+            <parameter name="trainingList" type="List" required="true">
+                <description>List of training records</description>
+            </parameter>
+        </out-parameters>
+
+        <actions>
+            <!-- Fetch data -->
+            <entity-find entity-name="moqui.training.MoquiTraining" list="trainingList">
+                <econdition field-name="trainingName" ignore-if-empty="true"/>
+                <econdition field-name="trainingId" ignore-if-empty="true"/>
+                <select-field field-name="trainingId"/>
+                <select-field field-name="trainingName"/>
+                <select-field field-name="trainingDate"/>
+            </entity-find>
+        </actions>
+
+
+
+
+    </service>
+
+</services>

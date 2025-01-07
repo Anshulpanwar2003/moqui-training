@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<list>
+    <MoquiTraining>
+        <trainingId>TR-001</trainingId>
+        <trainingName>Software Development Fundamentals</trainingName>
+        <trainingDate>2024-12-01</trainingDate>
+        <trainingPrice>500</trainingPrice>
+        <trainingDuration>2</trainingDuration>
+    </MoquiTraining>
+    <MoquiTraining>
+        <trainingId>TR-002</trainingId>
+        <trainingName>Data Analysis with Python</trainingName>
+        <trainingDate>2025-01-15</trainingDate>
+        <trainingPrice>700</trainingPrice>
+        <trainingDuration>3</trainingDuration>
+    </MoquiTraining>
+</list>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
+
+    <service verb="create" noun="MoquiTraining" type="entity-auto">
+        <description>Generate records in the MoquiTraining entity automatically</description>
+
+        <!-- Input Parameters -->
+        <in-parameters>
+            <parameter name="trainingName" type="String" required="true"  >
+                <description>Name of the training</description>
+            </parameter>
+            <parameter name="trainingDate" required="true" type="Timestamp">
+                <description>Date of the training (must follow MM/dd/yyyy format)</description>
+            </parameter>
+
+            <parameter name="trainingPrice" type="Integer" required="true">
+                <description>price of the training</description>
+            </parameter>
+            <parameter name="trainingDuration" type="Integer" required="true">
+                <description>Duration of training</description>
+            </parameter>
+
+        </in-parameters>
+
+        <!-- Validations
+        <validations>
+            <validate field="trainingName" required="true"/>
+            <validate field="trainingDate" format="MM/dd/yyyy"/>
+        </validations>
+-->
+        <!-- Output Parameters -->
+        <out-parameters>
+            <parameter name="trainingId">
+                <description>The ID of the newly created training record</description>
+            </parameter>
+        </out-parameters>
+    </service>
+    <!--
+
+    <service name="MoquiTraining" type="entity-auto" entity-name="MoquiTraining">
+        <parameters>
+            <parameter name="trainingName" type="text-medium" />
+            <parameter name="trainingDate" type="date" />
+        </parameters>
+        <validations>
+            <validate field="trainingName" required="true" />
+            <validate field="trainingDate" format="MM/dd/yyyy" />
+        </validations>
+        <result name="trainingId" />
+    </service>
+    -->
+</services>

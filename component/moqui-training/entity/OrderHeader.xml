@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/entity-definition-3.xsd">
+
+    <entity entity-name="OrderHeader" package="com.retail">
+        <field name="orderId" type="id" is-pk="true" auto-generate="true" />
+        <field name="orderDate" type="date"/>
+        <field name="partyId" type="id"/>
+        <field name="shippingContactMechId" type="id"/>
+        <field name="billingContactMechId" type="id"/>
+
+        <relationship type="one" related="Party">
+            <key-map field-name="partyId" related="partyId"/>
+        </relationship>
+        <relationship type="one" related="ContactMech">
+            <key-map field-name="shippingContactMechId" related="contactMechId"/>
+        </relationship>
+        <relationship type="one" related="ContactMech">
+            <key-map field-name="billingContactMechId" related="contactMechId"/>
+        </relationship>
+
+        <!-- Moqui will infer the foreign keys automatically -->
+    </entity>
+
+</entities>

@@ -1,0 +1,13 @@
+<entity-facade>
+    <entity-group name="default" entity-location="component://moqui-training/entities"/>
+
+<!--    <load data="seed">-->
+<!--        <reader type="xml" location="component://moqui-training/Data/seed-data.xml"/>-->
+<!--    </load>-->
+
+    <load data="csv">
+        <!-- Replace the XML reader with a CSV reader -->
+        <reader type="csv" location="component://moqui-training/Data/data.csv"/>
+    </load>
+
+</entity-facade>

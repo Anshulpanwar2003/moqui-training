@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-2.xsd">
+
+    <!-- Create OrderHeader Service -->
+    <service name="orderHeader.create" verb="create" noun="OrderHeader" type="entity-auto">
+        <description>Create a new OrderHeader record</description>
+        <in-parameters>
+<!--            <parameter name="orderId" type="String" required="true"/>-->
+            <parameter name="orderDate" type="java.sql.Date" required="true"/>
+            <parameter name="partyId" type="String" required="true"/>
+            <parameter name="shippingContactMechId" type="String" required="true"/>
+            <parameter name="billingContactMechId" type="String" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="orderId" type="id"/>
+        </out-parameters>
+    </service>
+
+    <!-- Get OrderHeader Service -->
+    <service verb="fetch" noun="OrderHeader" type="inline">
+        <description>Fetch OrderHeader records</description>
+        <in-parameters>
+            <parameter name="orderId" type="String" required="false">
+                <description>Filter by Order ID</description>
+            </parameter>
+            <parameter name="partyId" type="String" required="false">
+                <description>Filter by Party ID</description>
+            </parameter>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="orderHeaderList" type="List" required="true">
+                <description>List of OrderHeader records</description>
+            </parameter>
+        </out-parameters>
+        <actions>
+            <entity-find entity-name="com.retail.OrderHeader" list="orderHeaderList">
+                <econdition field-name="orderId" ignore-if-empty="true"/>
+                <econdition field-name="partyId" ignore-if-empty="true"/>
+                <econdition field-name="orderDate" ignore-if-empty="true"/>
+                <econdition field-name="shippingContactMechId" ignore-if-empty="true"/>
+                <econdition field-name="billingContactMechId" ignore-if-empty="true"/>
+                <select-field field-name="orderId"/>
+                <select-field field-name="orderDate"/>
+                <select-field field-name="partyId"/>
+                <select-field field-name="shippingContactMechId"/>
+                <select-field field-name="billingContactMechId"/>
+            </entity-find>
+        </actions>
+    </service>
+
+    <!-- Update OrderHeader Service -->
+    <service name="orderHeader.update" verb="store" noun="OrderHeader" type="inline">
+        <description>Update an existing OrderHeader record</description>
+        <in-parameters>
+            <parameter name="orderId" type="id" required="true"/>
+            <parameter name="orderDate" type="date"/>
+            <parameter name="partyId" type="id"/>
+            <parameter name="shippingContactMechId" type="id"/>
+            <parameter name="billingContactMechId" type="id"/>
+        </in-parameters>
+        <actions>
+            <entity-find value-field="existingOrderHeader" entity-name="OrderHeader">
+                <econdition field-name="orderId" value-field="orderId"/>
+            </entity-find>
+            <entity-set value-field="existingOrderHeader" include="all"/>
+            <entity-update value-field="existingOrderHeader"/>
+        </actions>
+    </service>
+
+    <!-- Delete OrderHeader Service -->
+    <service name="orderHeader.delete" verb="delete" noun="OrderHeader" type="entity-auto">
+        <description>Delete an OrderHeader record by ID</description>
+        <in-parameters>
+            <parameter name="orderId" type="String" required="true"/>
+        </in-parameters>
+        <actions>
+            <entity-find value-field="orderHeaderToDelete" entity-name="OrderHeader"/>
+            <if condition="orderHeaderToDelete != null">
+                <entity-delete value-field="orderHeaderToDelete"/>
+            </if>
+        </actions>
+    </service>
+
+</services>

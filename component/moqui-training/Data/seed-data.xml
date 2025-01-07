@@ -1,0 +1,7 @@
+<entity-facade-xml>
+    <MoquiTraining trainingId="TR-001" trainingName="Software Development Fundamentals"
+                   trainingDate="2024-12-01" trainingPrice="500" trainingDuration="2"/>
+
+    <MoquiTraining trainingId="TR-002" trainingName="Data Analysis with Python"
+                   trainingDate="2025-01-15" trainingPrice="700" trainingDuration="3"/>
+</entity-facade-xml>

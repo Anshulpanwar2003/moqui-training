@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-2.xsd">
+
+    <!-- Create ContactMech Service -->
+    <service name="contactMech.create" verb="create" noun="ContactMech" type="entity-auto">
+        <description>Create a new ContactMech record</description>
+        <in-parameters>
+            <parameter name="contactMechId" type="String" required="true"/>
+            <parameter name="partyId" type="String" required="true"/>
+            <parameter name="streetAddress" type="String" required="true"/>
+            <parameter name="city" type="String" required="true"/>
+            <parameter name="state" type="String" required="true"/>
+            <parameter name="postalCode" type="String" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="contactMechId" type="id"/>
+        </out-parameters>
+    </service>
+
+    <!-- Get ContactMech Service -->
+    <service verb="fetch" noun="ContactMech" type="inline">
+        <description>Fetch ContactMech records</description>
+        <in-parameters>
+            <parameter name="contactMechId" type="String" required="false">
+                <description>Filter by ContactMech ID</description>
+            </parameter>
+            <parameter name="partyId" type="String" required="false">
+                <description>Filter by Party ID</description>
+            </parameter>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="contactMechList" type="List" required="true">
+                <description>List of ContactMech records</description>
+            </parameter>
+        </out-parameters>
+        <actions>
+            <entity-find entity-name="com.retail.ContactMech" list="contactMechList">
+                <econdition field-name="contactMechId" ignore-if-empty="true"/>
+                <econdition field-name="partyId" ignore-if-empty="true"/>
+                <econdition field-name="streetAddress" ignore-if-empty="true"/>
+                <econdition field-name="city" ignore-if-empty="true"/>
+                <econdition field-name="state" ignore-if-empty="true"/>
+                <econdition field-name="postalCode" ignore-if-empty="true"/>
+                <select-field field-name="contactMechId"/>
+                <select-field field-name="partyId"/>
+                <select-field field-name="streetAddress"/>
+                <select-field field-name="city"/>
+                <select-field field-name="state"/>
+                <select-field field-name="postalCode"/>
+            </entity-find>
+        </actions>
+    </service>
+
+    <!-- Update ContactMech Service -->
+    <service name="contactMech.update" verb="store" noun="ContactMech" type="inline">
+        <description>Update an existing ContactMech record</description>
+        <in-parameters>
+            <parameter name="contactMechId" type="String" required="true"/>
+            <parameter name="partyId" type="String"/>
+            <parameter name="streetAddress" type="String"/>
+            <parameter name="city" type="String"/>
+            <parameter name="state" type="String"/>
+            <parameter name="postalCode" type="String"/>
+        </in-parameters>
+        <actions>
+            <entity-find value-field="existingContactMech" entity-name="ContactMech">
+                <econdition field-name="contactMechId" value-field="contactMechId"/>
+            </entity-find>
+            <entity-set value-field="existingContactMech" include="all"/>
+            <entity-update value-field="existingContactMech"/>
+        </actions>
+    </service>
+
+    <!-- Delete ContactMech Service -->
+    <service name="contactMech.delete" verb="delete" noun="ContactMech" type="entity-auto">
+        <description>Delete a ContactMech record by ID</description>
+        <in-parameters>
+            <parameter name="contactMechId" type="String" required="true"/>
+        </in-parameters>
+        <actions>
+            <entity-find value-field="contactMechToDelete" entity-name="ContactMech"/>
+            <if condition="contactMechToDelete != null">
+                <entity-delete value-field="contactMechToDelete"/>
+            </if>
+        </actions>
+    </service>
+
+</services>
