@@ -25,9 +25,6 @@
             <parameter name="contactMechId" type="String" required="false">
                 <description>Filter by ContactMech ID</description>
             </parameter>
-            <parameter name="partyId" type="String" required="false">
-                <description>Filter by Party ID</description>
-            </parameter>
         </in-parameters>
         <out-parameters>
             <parameter name="contactMechList" type="List" required="true">
@@ -53,22 +50,21 @@
     </service>
 
     <!-- Update ContactMech Service -->
-    <service name="contactMech.update" verb="store" noun="ContactMech" type="inline">
-        <description>Update an existing ContactMech record</description>
+    <service verb="put" noun="ContactMech">
         <in-parameters>
-            <parameter name="contactMechId" type="String" required="true"/>
-            <parameter name="partyId" type="String"/>
-            <parameter name="streetAddress" type="String"/>
-            <parameter name="city" type="String"/>
-            <parameter name="state" type="String"/>
-            <parameter name="postalCode" type="String"/>
+            <auto-parameters include="all"/>
         </in-parameters>
+        <out-parameters>
+            <parameter name="pk"/>
+        </out-parameters>
         <actions>
-            <entity-find value-field="existingContactMech" entity-name="ContactMech">
-                <econdition field-name="contactMechId" value-field="contactMechId"/>
-            </entity-find>
-            <entity-set value-field="existingContactMech" include="all"/>
-            <entity-update value-field="existingContactMech"/>
+            <entity-find-one entity-name="com.retail.ContactMech" value-field="contactMechList">
+                <field-map field-name="contactMechId" from="context.contactMechId" />
+            </entity-find-one>
+            <if condition="contactMechList != null">
+                <entity-set value-field="contactMechList" include="all" />
+                <entity-update value-field="contactMechList"/>
+            </if>
         </actions>
     </service>
 

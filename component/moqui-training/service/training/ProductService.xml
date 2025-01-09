@@ -53,28 +53,24 @@
     </service>
 
     <!-- Update Product Service -->
-    <service name="product.update" verb="store" noun="Product" type="inline">
-        <description>Update an existing Product record</description>
+    <service verb="put" name="product.update" type="inline" noun="Product">
         <in-parameters>
-            <parameter name="productId" type="String" required="true"/>
-            <parameter name="productName" type="String"/>
-            <parameter name="color" type="String"/>
-            <parameter name="size" type="String"/>
+            <auto-parameters include="all"/>
         </in-parameters>
+        <out-parameters>
+            <parameter name="pk"/>
+        </out-parameters>
         <actions>
-            <!-- Find the existing product by productId -->
-            <entity-find value-field="existingProduct" entity-name="Product">
-                <econdition field-name="productId" value-field="productId"/>
-            </entity-find>
-
-            <!-- Set the existingProduct entity to include all fields (to prepare for update) -->
-            <entity-set value-field="existingProduct" include="all"/>
-
-            <!-- Update the existing product with the new values -->
-            <entity-update value-field="existingProduct"/>
-
+            <entity-find-one entity-name="com.retail.Product" value-field="productList">
+                <field-map field-name="productId" from="context.productId" />
+            </entity-find-one>
+            <if condition="productList != null">
+                <entity-set value-field="productList" include="all" />
+                <entity-update value-field="productList"/>
+            </if>
         </actions>
     </service>
+
 
     <!-- Delete Product Service -->
     <service name="product.delete" verb="delete" noun="Product" type="entity-auto">

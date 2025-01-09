@@ -46,27 +46,23 @@
     </service>
 
     <!-- Update OrderItem Service -->
-    <service name="orderItem.update" verb="store" noun="OrderItem" type="inline">
-        <description>Update an existing OrderItem record</description>
+    <service verb="put" noun="OrderItem">
         <in-parameters>
-            <parameter name="orderItemSeqId" type="id" required="true"/>
-            <parameter name="quantity" type="number-integer"/>
-            <parameter name="status" type="text-medium"/>
+            <auto-parameters include="all"/>
         </in-parameters>
+        <out-parameters>
+            <parameter name="pk"></parameter>
+        </out-parameters>
         <actions>
-            <!-- Find the existing OrderItem by orderItemSeqId -->
-            <entity-find value-field="existingOrderItem" entity-name="OrderItem">
-                <econdition field-name="orderItemSeqId" value-field="orderItemSeqId"/>
-            </entity-find>
-
-            <!-- Set the existing OrderItem entity to include all fields (prepare for update) -->
-            <entity-set value-field="existingOrderItem" include="all"/>
-
-            <!-- Update the existing OrderItem with new values -->
-            <entity-update value-field="existingOrderItem"/>
+            <entity-find-one entity-name="OrderItem" value-field="orderItemList">
+                <field-map field-name="orderItemSeqId" from="context.orderItemSeqId" />
+            </entity-find-one>
+            <if condition="orderItemList != null">
+                <entity-set value-field="orderItemList" include="all" />
+                <entity-update value-field="orderItemList"/>
+            </if>
         </actions>
     </service>
-
     <!-- Delete OrderItem Service -->
     <service name="orderItem.delete" verb="delete" noun="OrderItem" type="entity-auto">
         <description>Delete an OrderItem record by ID</description>

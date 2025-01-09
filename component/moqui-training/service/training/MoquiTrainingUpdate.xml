@@ -2,7 +2,7 @@
 <services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
 
-    <!-- Define the service to create or update MoquiTraining records -->
+
     <service verb="store" type="inline" noun="MoquiTraining">
 
         <!-- Input Parameters: -->

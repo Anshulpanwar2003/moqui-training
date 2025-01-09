@@ -24,9 +24,7 @@
             <parameter name="orderId" type="String" required="false">
                 <description>Filter by Order ID</description>
             </parameter>
-            <parameter name="partyId" type="String" required="false">
-                <description>Filter by Party ID</description>
-            </parameter>
+
         </in-parameters>
         <out-parameters>
             <parameter name="orderHeaderList" type="List" required="true">
@@ -41,7 +39,7 @@
                 <econdition field-name="shippingContactMechId" ignore-if-empty="true"/>
                 <econdition field-name="billingContactMechId" ignore-if-empty="true"/>
                 <select-field field-name="orderId"/>
-                <select-field field-name="orderDate"/>
+<!--                <select-field field-name="orderDate"/>-->
                 <select-field field-name="partyId"/>
                 <select-field field-name="shippingContactMechId"/>
                 <select-field field-name="billingContactMechId"/>
@@ -50,23 +48,24 @@
     </service>
 
     <!-- Update OrderHeader Service -->
-    <service name="orderHeader.update" verb="store" noun="OrderHeader" type="inline">
-        <description>Update an existing OrderHeader record</description>
+    <service verb="put" noun="OrderHeader">
         <in-parameters>
-            <parameter name="orderId" type="id" required="true"/>
-            <parameter name="orderDate" type="date"/>
-            <parameter name="partyId" type="id"/>
-            <parameter name="shippingContactMechId" type="id"/>
-            <parameter name="billingContactMechId" type="id"/>
+            <auto-parameters include="all"/>
         </in-parameters>
+        <out-parameters>
+            <parameter name="pk"></parameter>
+        </out-parameters>
         <actions>
-            <entity-find value-field="existingOrderHeader" entity-name="OrderHeader">
-                <econdition field-name="orderId" value-field="orderId"/>
-            </entity-find>
-            <entity-set value-field="existingOrderHeader" include="all"/>
-            <entity-update value-field="existingOrderHeader"/>
+            <entity-find-one entity-name="com.retail.OrderHeader" value-field="orderHeaderList">
+                <field-map field-name="orderId" from="context.orderId" />
+            </entity-find-one>
+            <if condition="orderHeaderList != null">
+                <entity-set value-field="orderHeaderList" include="all" />
+                <entity-update value-field="orderHeaderList"/>
+            </if>
         </actions>
     </service>
+
 
     <!-- Delete OrderHeader Service -->
     <service name="orderHeader.delete" verb="delete" noun="OrderHeader" type="entity-auto">

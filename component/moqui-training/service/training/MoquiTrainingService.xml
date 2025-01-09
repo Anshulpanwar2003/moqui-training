@@ -5,7 +5,7 @@
     <service verb="create" noun="MoquiTraining" type="entity-auto">
         <description>Generate records in the MoquiTraining entity automatically</description>
 
-        <!-- Input Parameters -->
+
         <in-parameters>
             <parameter name="trainingName" type="String" required="true"  >
                 <description>Name of the training</description>
@@ -23,31 +23,11 @@
 
         </in-parameters>
 
-        <!-- Validations
-        <validations>
-            <validate field="trainingName" required="true"/>
-            <validate field="trainingDate" format="MM/dd/yyyy"/>
-        </validations>
--->
-        <!-- Output Parameters -->
+
         <out-parameters>
             <parameter name="trainingId">
                 <description>The ID of the newly created training record</description>
             </parameter>
         </out-parameters>
     </service>
-    <!--
-
-    <service name="MoquiTraining" type="entity-auto" entity-name="MoquiTraining">
-        <parameters>
-            <parameter name="trainingName" type="text-medium" />
-            <parameter name="trainingDate" type="date" />
-        </parameters>
-        <validations>
-            <validate field="trainingName" required="true" />
-            <validate field="trainingDate" format="MM/dd/yyyy" />
-        </validations>
-        <result name="trainingId" />
-    </service>
-    -->
 </services>

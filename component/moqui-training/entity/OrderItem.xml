@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/entity-definition-3.xsd">
     <entity entity-name="OrderItem" package="com.retail">
-        <field name="orderItemSeqId" type="id" is-pk="true"/>
+        <field name="orderItemSeqId" type="id" is-pk="true" auto-generated="true"/>
         <field name="orderId" type="id"/>
         <field name="productId" type="id"/>
         <field name="quantity" type="number-integer"/>

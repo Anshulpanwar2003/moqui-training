@@ -1,5 +1,5 @@
 <entity-facade>
-    <entity-group name="default" entity-location="component://moqui-training/entities"/>
+    <entity-group name="default" entity-location="component://moqui-training/entity"/>
 
 <!--    <load data="seed">-->
 <!--        <reader type="xml" location="component://moqui-training/Data/seed-data.xml"/>-->
